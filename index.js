@@ -1,22 +1,29 @@
-const express = require('express');
-const process = require('process');
-const http = require('http');
 require('dotenv').config();
+const process = require('process');
+const app = require('express')();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http, {
+  cors: {
+    origin: process.NODE_ENV === 'production' ? process.env.CLIENT_PROD_URL : process.env.CLIENT_DEV_URL,
+    methods: ['GET', 'POST'],
+  },
+});
 
-const app = express();
-const server = http.createServer(app);
+io.on('connection', (socket) => {
+  console.log(`User connected on process ${process.pid}`);
+
+  socket.on('canvas-data', (data) => {
+    socket.broadcast.emit('canvas-data', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`User disconnected from process ${process.pid}`);
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-
-server.listen(PORT, () => {
+http.listen(PORT, () => {
   console.log(`Listening all instances on port: ${PORT}`);
   console.log(`Current instance id: ${process.pid}`);
 });
