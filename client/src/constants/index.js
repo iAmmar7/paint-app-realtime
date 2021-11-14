@@ -1,5 +1,5 @@
 const constants = {
-  brushSize: 20,
+  brushSize: 15,
 };
 
 export default constants;
