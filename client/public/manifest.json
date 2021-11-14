@@ -1,6 +1,6 @@
 {
-  "short_name": "Paint App",
-  "name": "Paint App - Realtime",
+  "short_name": "Magic Painter",
+  "name": "Magic Painter by Adrian Bece",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,7 +18,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/app",
+  "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
