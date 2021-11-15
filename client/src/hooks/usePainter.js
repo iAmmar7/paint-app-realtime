@@ -1,13 +1,13 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
 
 import constants from '../constants';
 
-const usePainter = () => {
+const usePainter = (socket) => {
   const canvas = useRef();
   const [isRegularMode, setIsRegularMode] = useState(true);
+  const [isLineMode, setIsLineMode] = useState(false);
   const [isAutoWidth, setIsAutoWidth] = useState(false);
   const [isEraser, setIsEraser] = useState(false);
-
   const [currentColor, setCurrentColor] = useState('#000000');
   const [currentWidth, setCurrentWidth] = useState(constants.brushSize);
 
@@ -26,6 +26,15 @@ const usePainter = () => {
 
   const ctx = useRef(canvas?.current?.getContext('2d'));
 
+  // useEffect(() => {
+  //   socket.on('canvas-data', (data) => {
+  //     const image = new Image();
+  //     const canvasCtx = canvas.current.getContext('2d');
+  //     image.onload = () => canvasCtx.drawImage(image, 0, 0);
+  //     image.src = data.image;
+  //   });
+  // }, [socket]);
+
   const drawOnCanvas = useCallback((event) => {
     if (!ctx || !ctx.current) {
       return;
@@ -36,6 +45,21 @@ const usePainter = () => {
     ctx.current.stroke();
 
     [lastX.current, lastY.current] = [event.offsetX, event.offsetY];
+  }, []);
+
+  const drawLine = useCallback((event) => {
+    if (!ctx || !ctx.current) {
+      return;
+    }
+
+    // Clear previous line
+    ctx.current.clearRect(0, 0, canvas.current.width, canvas.current.height);
+
+    // Draw new line
+    ctx.current.beginPath();
+    ctx.current.moveTo(lastX.current, lastY.current);
+    ctx.current.lineTo(event.offsetX, event.offsetY);
+    ctx.current.stroke();
   }, []);
 
   const handleMouseDown = useCallback((e) => {
@@ -81,14 +105,22 @@ const usePainter = () => {
 
         autoWidth.current ? dynamicLineWidth() : (ctx.current.lineWidth = selectedLineWidth.current);
       }
-      drawOnCanvas(e);
+
+      if (isLineMode) {
+        drawLine(e);
+      } else {
+        drawOnCanvas(e);
+      }
     },
-    [drawOnCanvas, dynamicLineWidth]
+    [isLineMode, dynamicLineWidth, drawLine, drawOnCanvas]
   );
 
   const stopDrawing = useCallback(() => {
     isDrawing.current = false;
-  }, []);
+
+    // const image = canvas.current.toDataURL('image/png');
+    // socket.emit('canvas-data', { image });
+  }, [socket]);
 
   const init = useCallback(() => {
     ctx.current = canvas?.current?.getContext('2d');

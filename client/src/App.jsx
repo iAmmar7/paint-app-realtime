@@ -11,7 +11,7 @@ const socket = socketClient(URL);
 
 const App = () => {
   const [dateUrl, setDataUrl] = useState('#');
-  const [{ canvas, ctx, ...state }, { init, ...api }] = usePainter();
+  const [{ canvas, canvasToRef, ctx, ...state }, { init, ...api }] = usePainter(socket);
 
   useEffect(() => {
     init();
@@ -19,7 +19,6 @@ const App = () => {
 
   const onCanvasData = () => {
     socket.on('canvas-data', (data) => {
-      console.log('data', data.image);
       const image = new Image();
       const canvasCtx = canvas.current.getContext('2d');
       image.onload = () => canvasCtx.drawImage(image, 0, 0);
@@ -60,6 +59,7 @@ const App = () => {
       <Canvas
         width={state.currentWidth}
         canvasRef={canvas}
+        canvasToRef={canvasToRef}
         onCanvasData={onCanvasData}
         emitCanvasData={emitCanvasData}
       />
