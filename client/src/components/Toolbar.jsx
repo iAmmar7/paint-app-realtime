@@ -89,7 +89,7 @@ const Toolbar = ({
               </small>
             </div>
             <div className="tool-section">
-              <input defaultValue={constants.brushSize} type="range" min="10" max="90" onChange={handleWidth} />
+              <input defaultValue={constants.brushSize} type="range" min="5" max="90" onChange={handleWidth} />
             </div>
           </div>
         )}
