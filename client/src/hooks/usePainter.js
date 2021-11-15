@@ -132,12 +132,12 @@ const usePainter = () => {
     selectedLineWidth.current = e.currentTarget.value;
   };
 
-  const handleClear = useCallback(() => {
-    if (!ctx || !ctx.current || !canvas || !canvas.current) {
-      return;
-    }
-    ctx.current.clearRect(0, 0, canvas.current.width, canvas.current.height);
-  }, []);
+  // const clearCanvas = useCallback(() => {
+  //   if (!ctx || !ctx.current || !canvas || !canvas.current) {
+  //     return;
+  //   }
+  //   ctx.current.clearRect(0, 0, canvas.current.width, canvas.current.height);
+  // }, []);
 
   const handleEraserMode = (e) => {
     autoWidth.current = false;
@@ -171,6 +171,7 @@ const usePainter = () => {
   return [
     {
       canvas,
+      ctx,
       currentWidth,
       currentColor,
       isRegularMode,
@@ -183,7 +184,7 @@ const usePainter = () => {
       handleSpecialMode,
       handleColor,
       handleWidth,
-      handleClear,
+      // handleClear,
       handleEraserMode,
       setAutoWidth,
       setCurrentSaturation,
