@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import socketClient from 'socket.io-client';
 
 import Canvas from './components/Canvas';
+import CanvasV2 from './components/CanvasV2';
 import Toolbar from './components/Toolbar';
 import usePainter from './hooks/usePainter';
 
@@ -42,27 +43,21 @@ const App = () => {
       return;
     }
     ctx.current.clearRect(0, 0, canvas.current.width, canvas.current.height);
-
-    // console.log('ctx', ctx.current.canvas, canvas.current);
-
-    // setTimeout(() => {
-    //   const image = ctx.current.canvas.toDataURL('image/png');
-    //   socket.emit('canvas-data', { image });
-    // }, 2000);
   }, [canvas, ctx]);
 
   const toolbarProps = { ...state, ...api, dateUrl, handleDownload, handleClear };
 
   return (
     <>
-      <Toolbar {...toolbarProps} />
-      <Canvas
+      {/* <Toolbar {...toolbarProps} /> */}
+      {/* <Canvas
         width={state.currentWidth}
         canvasRef={canvas}
         canvasToRef={canvasToRef}
         onCanvasData={onCanvasData}
         emitCanvasData={emitCanvasData}
-      />
+      /> */}
+      <CanvasV2 />
     </>
   );
 };

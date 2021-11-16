@@ -11,8 +11,6 @@ const usePainter = (socket) => {
   const [currentColor, setCurrentColor] = useState('#000000');
   const [currentWidth, setCurrentWidth] = useState(constants.brushSize);
 
-  console.log('currentWidth', currentWidth);
-
   const autoWidth = useRef(false);
   const selectedSaturation = useRef(100);
   const selectedLightness = useRef(50);
