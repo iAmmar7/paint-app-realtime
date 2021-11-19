@@ -31,6 +31,7 @@ section,
 main {
   width: 100%;
   height: 100%;
+  background: #fef9ef;
 }
 
 section {
@@ -136,7 +137,7 @@ h1 {
   letter-spacing: -0.3rem;
   margin: 0 0 3rem;
   background: linear-gradient(90deg, hsl(0, 100%, 50%), hsl(211, 100%, 50%) 50%, hsl(108, 100%, 40%));
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -334,8 +335,9 @@ h1 {
 }
 
 .btn--main {
-  background-color: hsl(211, 100%, 75%);
+  background-color: #a2d2ff;
   margin-bottom: 0.75rem;
+  margin-right: 0.2rem;
 }
 
 .btn--block {
@@ -372,9 +374,6 @@ input[type='color']::-webkit-color-swatch-wrapper {
 }
 input[type='color']::-webkit-color-swatch {
   border: none;
-}
-
-.btn--main {
 }
 
 input[type='checkbox'] {
@@ -429,4 +428,63 @@ input[type='checkbox'] {
 
 .btn-container > button:hover {
   opacity: 0.9;
+}
+
+.toolbar {
+  position: fixed;
+  width: 180px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.toolbar-icon {
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  background: #a2d2ff;
+}
+
+.toolbar-icon:hover {
+  background: #f5f5f5;
+}
+
+.toolbar-menu {
+  padding: 10px 10px 0px 10px;
+  background: #f5f5f5;
+  height: 100%;
+  overflow: hidden;
+  animation: fadeInAnimation 2s;
+}
+
+.toolbar-menu-show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.toolbar-eye {
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  background: #a2d2ff;
+  margin: 40px -10px 0px -10px;
+}
+
+.toolbar-eye:hover {
+  background: #f5f5f5;
+}
+
+@keyframes fadeInAnimation {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+.action-btn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding-right: 10px;
 }

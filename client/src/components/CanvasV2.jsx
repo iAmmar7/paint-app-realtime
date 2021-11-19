@@ -12,6 +12,7 @@ import {
 } from '../utils/functions';
 import { useHistory } from '../hooks/useHistory';
 import Toolbar from './Toolbar';
+import ActionButton from './ActionButton';
 
 const Canvas = () => {
   const [elements, setElements, undo, redo] = useHistory([]);
@@ -194,6 +195,7 @@ const Canvas = () => {
   return (
     <div>
       <Toolbar tool={tool} setTool={setTool} undo={undo} redo={redo} />
+      <ActionButton undo={undo} redo={redo} />
       {/* <div style={{ position: 'fixed' }}>
         <input type="radio" id="selection" checked={tool === 'selection'} onChange={() => setTool('selection')} />
         <label htmlFor="selection">Selection</label>
