@@ -177,9 +177,9 @@ const Canvas = ({ data, emitCanvasData }) => {
     setAction('none');
     setSelectedElement(null);
 
-    setTimeout(() => {
-      emitCanvasData({ currentState: elements, previousState });
-    }, 1000);
+    // setTimeout(() => {
+    emitCanvasData({ currentState: elements, previousState });
+    // }, 1000);
   };
 
   const handleBlur = (event) => {
@@ -192,9 +192,9 @@ const Canvas = ({ data, emitCanvasData }) => {
   const handleClear = useCallback(() => {
     setElements([]);
 
-    setTimeout(() => {
-      emitCanvasData({ currentState: [], previousState: [] });
-    }, 1000);
+    // setTimeout(() => {
+    emitCanvasData({ currentState: [], previousState: [] });
+    // }, 1000);
   }, [emitCanvasData, setElements]);
 
   const handleDownload = useCallback(() => {

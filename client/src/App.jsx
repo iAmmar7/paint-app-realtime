@@ -15,8 +15,9 @@ const App = () => {
   const [elements, setElements] = useState({ currentState: [], previousState: [] });
 
   useEffect(() => {
-    socket.on('canvas-data', ({ data }) => {
-      setElements(data);
+    socket.on('canvas-data', (data) => {
+      console.log('Socket data from', data.id);
+      setElements(data.data);
     });
   }, []);
 

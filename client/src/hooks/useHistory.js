@@ -16,9 +16,9 @@ export const useHistory = (data, emitCanvasData) => {
     setCurrentElements(currentElements.filter((elem) => elem.id !== element.id));
     setPreviousElements((prev) => [...prev, element]);
 
-    setTimeout(() => {
-      emitCanvasData({ currentState: currentElements, previousState: [...previousElements, element] });
-    }, 1000);
+    // setTimeout(() => {
+    emitCanvasData({ currentState: currentElements, previousState: [...previousElements, element] });
+    // }, 1000);
   }, [currentElements, emitCanvasData, previousElements]);
 
   const redo = useCallback(() => {
@@ -27,9 +27,9 @@ export const useHistory = (data, emitCanvasData) => {
     setCurrentElements((prev) => [...prev, element]);
     setPreviousElements(previousElements.filter((elem) => elem.id !== element.id));
 
-    setTimeout(() => {
-      emitCanvasData({ currentState: [...currentElements, element], previousState: previousElements });
-    }, 1000);
+    // setTimeout(() => {
+    emitCanvasData({ currentState: [...currentElements, element], previousState: previousElements });
+    // }, 1000);
   }, [currentElements, emitCanvasData, previousElements]);
 
   return [currentElements, setCurrentElements, undo, redo, previousElements];

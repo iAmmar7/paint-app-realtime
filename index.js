@@ -12,7 +12,7 @@ io.on('connection', (socket) => {
   console.log(`User connected on process ${process.pid}`);
 
   socket.on('canvas-data', (data) => {
-    socket.broadcast.emit('canvas-data', data);
+    socket.broadcast.emit('canvas-data', { data: data.data, id: process.pid });
   });
 
   socket.on('disconnect', () => {
