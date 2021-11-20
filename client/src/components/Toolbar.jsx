@@ -1,43 +1,11 @@
 import { useState } from 'react';
-import {
-  faArrowsAltH,
-  faEraser,
-  faMagic,
-  faPaintBrush,
-  faPencilAlt,
-  faICursor,
-  faEyeSlash,
-  faEye,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPaintBrush, faPencilAlt, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import BrushPreview from './BrushPreview';
-import constants from '../constants';
 import RectangleIcon from '../icons/rectangle.png';
 
-const Toolbar = ({
-  currentWidth,
-  currentColor,
-  handleDownload,
-  dateUrl,
-  handleClear,
-  handleSpecialMode,
-  handleEraserMode,
-  setAutoWidth,
-  handleRegularMode,
-  handleColor,
-  handleWidth,
-  setCurrentSaturation,
-  setCurrentLightness,
-  isRegularMode,
-  isAutoWidth,
-  isEraser,
-
-  tool,
-  setTool,
-  undo,
-  redo,
-}) => {
+const Toolbar = ({ tool, setTool, brushSize, setBrushSize, color, setColor, textSize, setTextSize }) => {
   const [toolbarOpen, setToolbarOpen] = useState(false);
 
   return (
@@ -50,7 +18,7 @@ const Toolbar = ({
         <div className="toolbar-menu">
           <div>
             <div>
-              <BrushPreview currentWidth={currentWidth} currentColor={currentColor} />
+              <BrushPreview currentWidth={tool === 'text' ? textSize : brushSize} currentColor={color} />
               <div className="tool-section tool-section--lrg">
                 <div className="tool-section">
                   <small>
@@ -62,7 +30,8 @@ const Toolbar = ({
                   className="btn--color"
                   type="color"
                   id="toolColorPicker"
-                  onChange={handleColor}
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
                 />
               </div>
               <div className="tool-section">
@@ -71,14 +40,14 @@ const Toolbar = ({
                 </small>
               </div>
               <div className="tool-grid tool-section tool-section--lrg">
-                <div>
+                {/* <div>
                   <button
                     className={`btn btn--tool ${tool === 'selection' ? 'btn--active' : ''}`}
                     onClick={() => setTool('selection')}
                   >
                     <FontAwesomeIcon icon={faICursor} />
                   </button>
-                </div>
+                </div> */}
                 <div>
                   <button
                     className={`btn btn--tool ${tool === 'line' ? 'btn--active' : ''}`}
@@ -111,36 +80,8 @@ const Toolbar = ({
                     <p className="action-text">T</p>
                   </button>
                 </div>
-
-                {/* asdasdkjasdnj */}
-                {/* <div>
-              <button
-                className={`btn btn--tool ${!isRegularMode ? 'btn--dream-active' : ''}`}
-                onClick={handleSpecialMode}
-              >
-                <FontAwesomeIcon icon={faMagic} />
-              </button>
-            </div>
-            <div>
-              <button className={`btn btn--tool ${isEraser ? 'btn--eraser-active' : ''}`} onClick={handleEraserMode}>
-                <FontAwesomeIcon icon={faEraser} />
-              </button>
-            </div>
-            <div>
-              <input
-                disabled={isEraser}
-                checked={isAutoWidth}
-                id="tool-autowidth"
-                type="checkbox"
-                onChange={setAutoWidth}
-                title="Dynamic brush size"
-              />{' '}
-              <label htmlFor="tool-autowidth" className={`btn btn--tool ${isAutoWidth ? 'btn--width-active' : ''}`}>
-                <FontAwesomeIcon icon={faArrowsAltH} />
-              </label>
-            </div> */}
               </div>
-              {!isAutoWidth && (
+              {['line', 'pencil'].includes(tool) && (
                 <div className="tool-section tool-section--lrg">
                   <div className="tool-section">
                     <small>
@@ -148,27 +89,32 @@ const Toolbar = ({
                     </small>
                   </div>
                   <div className="tool-section">
-                    <input defaultValue={constants.brushSize} type="range" min="5" max="90" onChange={handleWidth} />
+                    <input
+                      defaultValue={brushSize}
+                      type="range"
+                      min="1"
+                      max="100"
+                      onChange={(e) => setBrushSize(e.target.value)}
+                    />
                   </div>
                 </div>
               )}
-              {!isRegularMode && (
+              {['text'].includes(tool) && (
                 <div className="tool-section tool-section--lrg">
                   <div className="tool-section">
                     <small>
-                      <strong>Magic brush</strong>
+                      <strong>Text size</strong>
                     </small>
                   </div>
                   <div className="tool-section">
-                    <label>
-                      <small>Saturation</small>
-                    </label>
-                    <input defaultValue="100" type="range" min="0" max="100" onChange={setCurrentSaturation} />
+                    <input
+                      defaultValue={textSize}
+                      type="range"
+                      min="12"
+                      max="100"
+                      onChange={(e) => setTextSize(e.target.value)}
+                    />
                   </div>
-                  <label>
-                    <small>Lightness</small>
-                  </label>
-                  <input defaultValue="50" type="range" min="0" max="100" onChange={setCurrentLightness} />
                 </div>
               )}
             </div>

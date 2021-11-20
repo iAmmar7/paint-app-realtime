@@ -12,6 +12,7 @@ import {
 } from '../utils/functions';
 import Toolbar from './Toolbar';
 import ActionButton from './ActionButton';
+import constants from '../constants';
 
 const Canvas = ({ socketElements, emitCanvasData }) => {
   // const [elements, setElements, undo, redo] = useHistory(socketElements || []);
@@ -20,6 +21,9 @@ const Canvas = ({ socketElements, emitCanvasData }) => {
   const [action, setAction] = useState('none');
   const [tool, setTool] = useState('line');
   const [selectedElement, setSelectedElement] = useState(null);
+  const [brushSize, setBrushSize] = useState(constants.brushSize);
+  const [textSize, setTextSize] = useState(constants.textSize);
+  const [color, setColor] = useState(constants.defaultColor);
   const textAreaRef = useRef();
 
   useLayoutEffect(() => {
@@ -31,9 +35,9 @@ const Canvas = ({ socketElements, emitCanvasData }) => {
 
     elements?.forEach((element) => {
       if (action === 'writing' && selectedElement.id === element.id) return;
-      drawElement(roughCanvas, context, element);
+      drawElement(roughCanvas, context, element, { color });
     });
-  }, [elements, action, selectedElement]);
+  }, [elements, action, selectedElement, color]);
 
   useEffect(() => {
     if (elements.length !== socketElements.length) setElements(socketElements);
@@ -54,17 +58,21 @@ const Canvas = ({ socketElements, emitCanvasData }) => {
     switch (type) {
       case 'line':
       case 'rectangle':
-        elementsCopy[id] = createElement(id, x1, y1, x2, y2, type);
+        elementsCopy[id] = createElement(id, x1, y1, x2, y2, type, { size: brushSize, color });
         break;
       case 'pencil':
         elementsCopy[id].points = [...elementsCopy[id].points, { x: x2, y: y2 }];
+        elementsCopy[id].color = color;
+        elementsCopy[id].brushSize = brushSize;
         break;
       case 'text':
         const textWidth = document.getElementById('canvas').getContext('2d').measureText(options.text).width;
         const textHeight = 24;
         elementsCopy[id] = {
-          ...createElement(id, x1, y1, x1 + textWidth, y1 + textHeight, type),
+          ...createElement(id, x1, y1, x1 + textWidth, y1 + textHeight, type, { size: brushSize, color }),
           text: options.text,
+          color,
+          textSize,
         };
         break;
       default:
@@ -100,7 +108,7 @@ const Canvas = ({ socketElements, emitCanvasData }) => {
       }
     } else {
       const id = elements?.length;
-      const element = createElement(id, clientX, clientY, clientX, clientY, tool);
+      const element = createElement(id, clientX, clientY, clientX, clientY, tool, { size: brushSize, color });
       setElements((prevState) => [...(prevState || []), element]);
       setSelectedElement(element);
       setAction(tool === 'text' ? 'writing' : 'drawing');
@@ -194,7 +202,16 @@ const Canvas = ({ socketElements, emitCanvasData }) => {
 
   return (
     <div>
-      <Toolbar tool={tool} setTool={setTool} />
+      <Toolbar
+        tool={tool}
+        setTool={setTool}
+        color={color}
+        setColor={setColor}
+        brushSize={brushSize}
+        setBrushSize={setBrushSize}
+        textSize={textSize}
+        setTextSize={setTextSize}
+      />
       <ActionButton handleClear={handleClear} handleDownload={handleDownload} dataUrl={dataUrl} />
       {action === 'writing' ? (
         <textarea

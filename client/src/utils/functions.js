@@ -3,12 +3,14 @@ import getStroke from 'perfect-freehand';
 
 const generator = rough.generator();
 
-export const createElement = (id, x1, y1, x2, y2, type) => {
+export const createElement = (id, x1, y1, x2, y2, type, { size, color }) => {
   switch (type) {
     case 'line':
     case 'rectangle':
       const roughElement =
-        type === 'line' ? generator.line(x1, y1, x2, y2) : generator.rectangle(x1, y1, x2 - x1, y2 - y1);
+        type === 'line'
+          ? generator.line(x1, y1, x2, y2, { strokeWidth: size, stroke: color })
+          : generator.rectangle(x1, y1, x2 - x1, y2 - y1, { stroke: color });
       return { id, x1, y1, x2, y2, type, roughElement };
     case 'pencil':
       return { id, type, points: [{ x: x1, y: y1 }] };
@@ -135,18 +137,21 @@ const getSvgPathFromStroke = (stroke) => {
 };
 
 export const drawElement = (roughCanvas, context, element) => {
+  console.log('element', element);
   switch (element.type) {
     case 'line':
     case 'rectangle':
       roughCanvas.draw(element.roughElement);
       break;
     case 'pencil':
-      const stroke = getSvgPathFromStroke(getStroke(element.points));
+      const stroke = getSvgPathFromStroke(getStroke(element.points, { size: element.brushSize || 10 }));
+      context.fillStyle = element.color;
       context.fill(new Path2D(stroke));
       break;
     case 'text':
       context.textBaseline = 'top';
-      context.font = '24px sans-serif';
+      context.font = `${element.textSize}px sans-serif`;
+      context.fillStyle = element.color;
       context.fillText(element.text, element.x1, element.y1);
       break;
     default:
