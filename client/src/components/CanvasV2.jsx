@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react';
 import rough from 'roughjs/bundled/rough.esm';
 
 import {
@@ -10,12 +10,13 @@ import {
   adjustmentRequired,
   adjustElementCoordinates,
 } from '../utils/functions';
-import { useHistory } from '../hooks/useHistory';
 import Toolbar from './Toolbar';
 import ActionButton from './ActionButton';
 
-const Canvas = () => {
-  const [elements, setElements, undo, redo] = useHistory([]);
+const Canvas = ({ socketElements, emitCanvasData }) => {
+  // const [elements, setElements, undo, redo] = useHistory(socketElements || []);
+  const [elements, setElements] = useState(socketElements || []);
+  const [dataUrl, setDataUrl] = useState('#');
   const [action, setAction] = useState('none');
   const [tool, setTool] = useState('line');
   const [selectedElement, setSelectedElement] = useState(null);
@@ -28,28 +29,16 @@ const Canvas = () => {
 
     const roughCanvas = rough.canvas(canvas);
 
-    elements.forEach((element) => {
+    elements?.forEach((element) => {
       if (action === 'writing' && selectedElement.id === element.id) return;
       drawElement(roughCanvas, context, element);
     });
   }, [elements, action, selectedElement]);
 
   useEffect(() => {
-    const undoRedoFunction = (event) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === 'z') {
-        if (event.shiftKey) {
-          redo();
-        } else {
-          undo();
-        }
-      }
-    };
-
-    document.addEventListener('keydown', undoRedoFunction);
-    return () => {
-      document.removeEventListener('keydown', undoRedoFunction);
-    };
-  }, [undo, redo]);
+    if (elements.length !== socketElements.length) setElements(socketElements);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socketElements]);
 
   useEffect(() => {
     const textArea = textAreaRef.current;
@@ -110,11 +99,10 @@ const Canvas = () => {
         }
       }
     } else {
-      const id = elements.length;
+      const id = elements?.length;
       const element = createElement(id, clientX, clientY, clientX, clientY, tool);
-      setElements((prevState) => [...prevState, element]);
+      setElements((prevState) => [...(prevState || []), element]);
       setSelectedElement(element);
-
       setAction(tool === 'text' ? 'writing' : 'drawing');
     }
   };
@@ -128,8 +116,8 @@ const Canvas = () => {
     }
 
     if (action === 'drawing') {
-      const index = elements.length - 1;
-      const { x1, y1 } = elements[index];
+      const index = elements?.length - 1;
+      const { x1, y1 } = elements?.[index] || {};
       updateElement(index, x1, y1, clientX, clientY, tool);
     } else if (action === 'moving') {
       if (selectedElement.type === 'pencil') {
@@ -172,7 +160,7 @@ const Canvas = () => {
       }
 
       const index = selectedElement.id;
-      const { id, type } = elements[index];
+      const { id, type } = elements?.[index] || {};
       if ((action === 'drawing' || action === 'resizing') && adjustmentRequired(type)) {
         const { x1, y1, x2, y2 } = adjustElementCoordinates(elements[index]);
         updateElement(id, x1, y1, x2, y2, type);
@@ -183,6 +171,7 @@ const Canvas = () => {
 
     setAction('none');
     setSelectedElement(null);
+    emitCanvasData(elements);
   };
 
   const handleBlur = (event) => {
@@ -192,26 +181,21 @@ const Canvas = () => {
     updateElement(id, x1, y1, null, null, type, { text: event.target.value });
   };
 
+  const handleClear = useCallback(() => {
+    setElements([]);
+    emitCanvasData([]);
+  }, [emitCanvasData]);
+
+  const handleDownload = useCallback(() => {
+    const canvas = document.getElementById('canvas');
+    var dataURL = canvas.toDataURL('image/png');
+    setDataUrl(dataURL);
+  }, []);
+
   return (
     <div>
-      <Toolbar tool={tool} setTool={setTool} undo={undo} redo={redo} />
-      <ActionButton undo={undo} redo={redo} />
-      {/* <div style={{ position: 'fixed' }}>
-        <input type="radio" id="selection" checked={tool === 'selection'} onChange={() => setTool('selection')} />
-        <label htmlFor="selection">Selection</label>
-        <input type="radio" id="line" checked={tool === 'line'} onChange={() => setTool('line')} />
-        <label htmlFor="line">Line</label>
-        <input type="radio" id="rectangle" checked={tool === 'rectangle'} onChange={() => setTool('rectangle')} />
-        <label htmlFor="rectangle">Rectangle</label>
-        <input type="radio" id="pencil" checked={tool === 'pencil'} onChange={() => setTool('pencil')} />
-        <label htmlFor="pencil">Pencil</label>
-        <input type="radio" id="text" checked={tool === 'text'} onChange={() => setTool('text')} />
-        <label htmlFor="text">Text</label>
-      </div>
-      <div style={{ position: 'fixed', bottom: 0, padding: 10 }}>
-        <button onClick={undo}>Undo</button>
-        <button onClick={redo}>Redo</button>
-      </div> */}
+      <Toolbar tool={tool} setTool={setTool} />
+      <ActionButton handleClear={handleClear} handleDownload={handleDownload} dataUrl={dataUrl} />
       {action === 'writing' ? (
         <textarea
           ref={textAreaRef}

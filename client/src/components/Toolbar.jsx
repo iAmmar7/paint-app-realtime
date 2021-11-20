@@ -9,14 +9,11 @@ import {
   faEyeSlash,
   faEye,
 } from '@fortawesome/free-solid-svg-icons';
-import * as icons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import BrushPreview from './BrushPreview';
 import constants from '../constants';
 import RectangleIcon from '../icons/rectangle.png';
-
-console.log('icons', icons);
 
 const Toolbar = ({
   currentWidth,
@@ -104,6 +101,14 @@ const Toolbar = ({
                     onClick={() => setTool('rectangle')}
                   >
                     <img width={26} src={RectangleIcon} alt="rectangle" />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    className={`btn btn--tool ${tool === 'text' ? 'btn--active' : ''}`}
+                    onClick={() => setTool('text')}
+                  >
+                    <p className="action-text">T</p>
                   </button>
                 </div>
 

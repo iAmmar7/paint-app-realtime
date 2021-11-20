@@ -1,15 +1,15 @@
 import React from 'react';
 
-function ActionButton({ undo, redo }) {
+function ActionButton({ handleClear, handleDownload, dataUrl }) {
   return (
     <div className="action-btn">
       <div className="btn-container">
-        <button className="btn btn--main" onClick={undo}>
-          Undo
+        <button className="btn btn--main" onClick={handleClear}>
+          Clear
         </button>
-        <button className="btn" onClick={redo}>
-          Redo
-        </button>
+        <a className="btn" download="image.png" onClick={handleDownload} href={dataUrl}>
+          Download
+        </a>
       </div>
     </div>
   );
