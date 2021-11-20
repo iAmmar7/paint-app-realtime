@@ -19,7 +19,7 @@ const Canvas = ({ socketElements, emitCanvasData }) => {
   const [elements, setElements] = useState(socketElements || []);
   const [dataUrl, setDataUrl] = useState('#');
   const [action, setAction] = useState('none');
-  const [tool, setTool] = useState('line');
+  const [tool, setTool] = useState('pencil');
   const [selectedElement, setSelectedElement] = useState(null);
   const [brushSize, setBrushSize] = useState(constants.brushSize);
   const [textSize, setTextSize] = useState(constants.textSize);
