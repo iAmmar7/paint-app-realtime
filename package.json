@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2-runtime start ecosystem.config.js --env production",
-    "dev": "nodemon inddex.js"
+    "start": "pm2-runtime start ecosystem.config.js --env development",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +13,8 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "socket.io": "^4.3.2"
+    "socket.io": "^4.3.2",
+    "socket.io-redis": "^6.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
