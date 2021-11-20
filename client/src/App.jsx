@@ -12,7 +12,6 @@ const App = () => {
 
   useEffect(() => {
     socket.on('canvas-data', ({ data }) => {
-      console.log('socket', data);
       setElements(data);
     });
   }, []);
