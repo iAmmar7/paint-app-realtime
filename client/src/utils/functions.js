@@ -137,7 +137,6 @@ const getSvgPathFromStroke = (stroke) => {
 };
 
 export const drawElement = (roughCanvas, context, element) => {
-  console.log('element', element);
   switch (element.type) {
     case 'line':
     case 'rectangle':

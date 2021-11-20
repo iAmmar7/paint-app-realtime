@@ -500,6 +500,13 @@ input[type='checkbox'] {
   font-weight: 900;
 }
 
+.history-action {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding-left: 10px;
+}
+
 /* Animation */
 .toolbar2 {
   position: fixed;

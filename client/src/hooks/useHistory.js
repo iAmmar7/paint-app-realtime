@@ -1,24 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-export const useHistory = (initialState) => {
-  const [index, setIndex] = useState(0);
-  const [history, setHistory] = useState([initialState]);
+export const useHistory = (data, emitCanvasData) => {
+  const [currentElements, setCurrentElements] = useState(data.currentState || []);
+  const [previousElements, setPreviousElements] = useState(data.previousState || []);
 
-  const setState = (action, overwrite = false) => {
-    const newState = typeof action === 'function' ? action(history[index]) : action;
-    if (overwrite) {
-      const historyCopy = [...history];
-      historyCopy[index] = newState;
-      setHistory(historyCopy);
-    } else {
-      const updatedState = [...history].slice(0, index + 1);
-      setHistory([...updatedState, newState]);
-      setIndex((prevState) => prevState + 1);
-    }
-  };
+  useEffect(() => {
+    if (currentElements.length !== data.currentState.length) setCurrentElements(data.currentState);
+    if (previousElements.length !== data.previousState.length) setPreviousElements(data.previousState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
-  const undo = () => index > 0 && setIndex((prevState) => prevState - 1);
-  const redo = () => index < history.length - 1 && setIndex((prevState) => prevState + 1);
+  const undo = useCallback(() => {
+    if (currentElements.length < 1) return;
+    const element = currentElements.pop();
+    setCurrentElements(currentElements.filter((elem) => elem.id !== element.id));
+    setPreviousElements((prev) => [...prev, element]);
 
-  return [history[index], setState, undo, redo];
+    setTimeout(() => {
+      emitCanvasData({ currentState: currentElements, previousState: [...previousElements, element] });
+    }, 1000);
+  }, [currentElements, emitCanvasData, previousElements]);
+
+  const redo = useCallback(() => {
+    if (previousElements.length < 1) return;
+    const element = previousElements.pop();
+    setCurrentElements((prev) => [...prev, element]);
+    setPreviousElements(previousElements.filter((elem) => elem.id !== element.id));
+
+    setTimeout(() => {
+      emitCanvasData({ currentState: [...currentElements, element], previousState: previousElements });
+    }, 1000);
+  }, [currentElements, emitCanvasData, previousElements]);
+
+  return [currentElements, setCurrentElements, undo, redo, previousElements];
 };
