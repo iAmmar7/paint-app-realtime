@@ -4,8 +4,7 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
   cors: {
-    origin: process.NODE_ENV === 'production' ? process.env.CLIENT_PROD_URL : process.env.CLIENT_DEV_URL,
-    methods: ['GET', 'POST'],
+    origin: '*',
   },
 });
 
