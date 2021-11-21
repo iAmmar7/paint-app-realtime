@@ -14,7 +14,7 @@ global.io = require('socket.io')(http, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
-    credentials: false,
+    credentials: true,
   },
   transports: ['websocket', 'polling'],
   allowEIO3: true,
