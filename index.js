@@ -37,6 +37,10 @@ global.io.on('connection', (socket) => {
   });
 });
 
+app.get('/test', (req, res) => {
+  return res.json({ message: 'The server is working!!' });
+});
+
 http.listen(PORT, () => {
   console.log(`Listening all instances on port: ${PORT}`);
   console.log(`Current instance id: ${process.pid}`);
