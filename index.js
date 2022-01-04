@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/test', (req, res) => {
+app.get('/', (req, res) => {
   return res.json({ message: 'The server is working!!' });
 });
 
