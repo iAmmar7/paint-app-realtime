@@ -2,29 +2,31 @@ require('dotenv').config();
 const process = require('process');
 const app = require('express')();
 const http = require('http').createServer(app);
-const redisAdapter = require('socket.io-redis');
-// const io = require('socket.io')(http, {
-//   cors: {
-//     origin: '*',
-//   },
-//   transports: ['websocket'],
-// });
+// const redisAdapter = require('socket.io-redis');
 
-global.io = require('socket.io')(http, {
+const io = require('socket.io')(http, {
   cors: {
     origin: '*',
-    methods: ['GET', 'POST'],
-    credentials: true,
   },
-  transports: ['websocket', 'polling'],
-  allowEIO3: true,
+  transports: ['websocket'],
 });
+
+// global.io = require('socket.io')(http, {
+//   cors: {
+//     origin: '*',
+//     methods: ['GET', 'POST'],
+//     credentials: true,
+//   },
+//   transports: ['websocket', 'polling'],
+//   allowEIO3: true,
+// });
 
 const PORT = process.env.PORT || 5000;
 
-io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
+// io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 
-global.io.on('connection', (socket) => {
+// global.io.on('connection', (socket) => {
+io.on('connection', (socket) => {
   console.log(`User connected on process ${process.pid}`);
 
   socket.on('canvas-data', (data) => {
