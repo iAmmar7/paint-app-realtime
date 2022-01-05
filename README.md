@@ -4,13 +4,14 @@
 ## Vercel + Heroku deployment
 https://paint-app-realtime.vercel.app/
 
-> If you face issues with **WebSockets** on the above URL, then please try to refresh the Heroku server here https://fierce-fortress-85118.herokuapp.com/
+> If you face issues with **WebSockets** on the above URL, then please try to refresh the Heroku server here https://api-paint-app-realtime.herokuapp.com/
 
 ## Few cool features
  - Real-time drawing interaction with all the connected users :rainbow:
  - NodeJS **cluster mode** with **Redis** and **PM2** integration :customs:
- - Server deployment on Heroku :fire:
- - Frontend deployment on Vercel :fire:
+ - Server deployment on **Heroku** :fire:
+ - Frontend deployment on **Vercel** :fire:
+ - **Automatic deployment** on both platforms :runner:
  - Text, Brush, Pen, and Rectangle draw :pencil2: :paintbrush: :abcd: :red_square:
  - Color selection :rainbow:
  - Increase or decrease the brush size :paintbrush:
