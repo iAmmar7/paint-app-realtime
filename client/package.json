@@ -1,6 +1,6 @@
 {
-  "name": "react-dream-painer",
-  "version": "0.1.0",
+  "name": "paint-app-realtime",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
