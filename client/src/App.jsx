@@ -3,7 +3,7 @@ import socketClient from 'socket.io-client';
 
 import Canvas from './components/Canvas';
 
-const URL = process.env.REACT_APP_SOCKET_URL;
+const URL = `${window.location.hostname}:5001`;
 
 const socket = socketClient(URL, {
   transports: ['websocket', 'polling'],
