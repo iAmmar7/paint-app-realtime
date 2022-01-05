@@ -11,7 +11,6 @@ const io = require('socket.io')(http, {
     origin: '*',
   },
   transports: ['websocket', 'polling'],
-  secure: true,
 });
 
 const PORT = process.env.PORT || 5000;

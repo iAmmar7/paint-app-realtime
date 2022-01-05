@@ -3,7 +3,7 @@ import socketClient from 'socket.io-client';
 
 import Canvas from './components/Canvas';
 
-const URL = `ws://paint-app-realtime-v2.vercel.app:5001/socket.io/?EIO=4&transport=websocket`;
+const URL = `${window.location.hostname}:5001`;
 
 const socket = socketClient(URL, {
   transports: ['websocket', 'polling'],
