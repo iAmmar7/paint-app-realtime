@@ -3,9 +3,12 @@ import socketClient from 'socket.io-client';
 
 import Canvas from './components/Canvas';
 
-const URL = 'https://fierce-fortress-85118.herokuapp.com/';
+const URL =
+  process.env.REACT_APP_NODE_ENV === 'production'
+    ? process.env.REACT_APP_PROD_SERVER_URL
+    : process.env.REACT_APP_DEV_SERVER_URL;
 
-const socket = socketClient(URL, {
+const socket = socketClient(URL || 'https://fierce-fortress-85118.herokuapp.com/', {
   transports: ['websocket', 'polling'],
 });
 
