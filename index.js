@@ -1,31 +1,20 @@
 require('dotenv').config();
 const process = require('process');
-const app = require('express')();
-const http = require('http').createServer(app);
-// const redisAdapter = require('socket.io-redis');
+const path = require('path');
+const express = require('express');
+const http = require('http');
 
+const app = express();
+const server = http.createServer(app);
 const io = require('socket.io')(http, {
   cors: {
     origin: '*',
   },
-  transports: ['websocket'],
 });
 
-// global.io = require('socket.io')(http, {
-//   cors: {
-//     origin: '*',
-//     methods: ['GET', 'POST'],
-//     credentials: true,
-//   },
-//   transports: ['websocket', 'polling'],
-//   allowEIO3: true,
-// });
-
 const PORT = process.env.PORT || 5000;
+const SOCKET_PORT = process.env.SOCKET_PORT || 5001;
 
-// io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
-
-// global.io.on('connection', (socket) => {
 io.on('connection', (socket) => {
   console.log(`User connected on process ${process.pid}`);
 
@@ -39,11 +28,15 @@ io.on('connection', (socket) => {
   });
 });
 
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
 app.get('/', (req, res) => {
-  return res.json({ message: 'The server is working!!' });
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
-http.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Listening all instances on port: ${PORT}`);
   console.log(`Current instance id: ${process.pid}`);
 });
+
+io.listen(SOCKET_PORT);
