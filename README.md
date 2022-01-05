@@ -1,18 +1,16 @@
 # paint-app-realtime
 :boom: An effortless real-time paint application :boom:
 
-## Vercel deployment
+## Vercel + Heroku deployment
 https://paint-app-realtime.vercel.app/
 
-If you face issues with **WebSockets** on the above URL, then please try to refresh the server here https://api-paint-app-realtime.vercel.app/
-
-OR
-
-Run this repo locally. See below :point_down:
+> If you face issues with **WebSockets** on the above URL, then please try to refresh the Heroku server here https://fierce-fortress-85118.herokuapp.com/
 
 ## Few cool features
  - Real-time drawing interaction with all the connected users :rainbow:
  - NodeJS **cluster mode** with **Redis** and **PM2** integration :customs:
+ - Server deployment on Heroku :fire:
+ - Frontend deployment on Vercel :fire:
  - Text, Brush, Pen, and Rectangle draw :pencil2: :paintbrush: :abcd: :red_square:
  - Color selection :rainbow:
  - Increase or decrease the brush size :paintbrush:
@@ -29,26 +27,27 @@ Run this repo locally. See below :point_down:
 - Socket.io <img alt="Socket.io" src="https://img.shields.io/badge/-Socket.io-010101?style=flat-square&logo=socket.io&logoColor=white" />
 - Redis <img alt="Redis" src="https://img.shields.io/badge/-Redis-DC382D?style=flat-square&logo=redis&logoColor=white" />
 - PM2 with Cluster mode <img alt="pm2" src="https://img.shields.io/badge/-PM2-222362?style=flat-square&logo=pm2&logoColor=white" />
+- Heroku <img alt="Heroku" src="https://img.shields.io/badge/-Heroku-430098?style=flat-square&logo=heroku&logoColor=white" />
+- Vercel <img alt="vercel" src="https://img.shields.io/badge/-Vercel-000000?style=flat-square&logo=vercel&logoColor=white" />
 
 ## How to run
-### Server
+#### :loudspeaker: Server
 - git clone
 - npm install
-- add .env
-  ```
-  PORT=5000
-  NODE_ENV=development
-  ```
 - npm start
-### Client
+#### :loudspeaker: Client
 - git clone
 - cd client
 - npm install
 - add .env
-  ```
-  REACT_APP_NODE_ENV=development
-  REACT_APP_DEV_SERVER_URL=http://localhost:5000
-  ```
+```
+REACT_APP_NODE_ENV=development
+REACT_APP_DEV_SERVER_URL=http://localhost:5000
+REACT_APP_PROD_SERVER_URL=https://fierce-fortress-85118.herokuapp.com/
+```
 - npm start
 
-:loudspeaker: If you wish to run the server in cluster mode, then please switch to [feature/cluster](https://github.com/iAmmar7/paint-app-realtime/tree/feature/cluster) branch and use ```npm run start:cluster``` command to run the server :loudspeaker:.
+
+#### :loudspeaker: For cluster mode 
+If you wish to run the server in cluster mode, then please switch to [feature/cluster](https://github.com/iAmmar7/paint-app-realtime/tree/feature/cluster) branch and use ```npm run start:cluster``` command to run the server.
+> You should have **Redis** and **PM2** installed on your machine.
