@@ -3,12 +3,6 @@ const process = require('process');
 const app = require('express')();
 const http = require('http').createServer(app);
 const redisAdapter = require('socket.io-redis');
-// const io = require('socket.io')(http, {
-//   cors: {
-//     origin: '*',
-//   },
-//   transports: ['websocket'],
-// });
 
 global.io = require('socket.io')(http, {
   cors: {
