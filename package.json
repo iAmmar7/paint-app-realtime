@@ -7,7 +7,7 @@
     "start": "node index.js",
     "start:cluster": "pm2-runtime start ecosystem.config.js --env development",
     "dev": "nodemon index.js",
-    "build": "cd client && npm install && npm run build"
+    "vercel-build": "npm install && cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
