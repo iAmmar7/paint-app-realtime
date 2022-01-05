@@ -14,7 +14,6 @@ const io = require('socket.io')(http, {
 });
 
 const PORT = process.env.PORT || 5000;
-const SOCKET_PORT = process.env.SOCKET_PORT || 5001;
 
 io.on('connection', (socket) => {
   console.log(`User connected on process ${process.pid}`);
@@ -29,17 +28,19 @@ io.on('connection', (socket) => {
   });
 });
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client', 'build')));
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-  });
-}
+//   app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+//   });
+// }
+
+app.get('/', (req, res) => {
+  res.send('Server running!');
+});
 
 server.listen(PORT, () => {
   console.log(`Listening all instances on port: ${PORT}`);
   console.log(`Current instance id: ${process.pid}`);
 });
-
-io.listen(SOCKET_PORT);
