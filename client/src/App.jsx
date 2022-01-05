@@ -3,7 +3,7 @@ import socketClient from 'socket.io-client';
 
 import Canvas from './components/Canvas';
 
-const URL = `${window.location.hostname}:5001`;
+const URL = 'https://fierce-fortress-85118.herokuapp.com/';
 
 const socket = socketClient(URL, {
   transports: ['websocket', 'polling'],
