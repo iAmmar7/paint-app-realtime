@@ -3,10 +3,11 @@ const process = require('process');
 const path = require('path');
 const express = require('express');
 const http = require('http');
+const socket = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = require('socket.io')(http, {
+const io = socket(server, {
   cors: {
     origin: '*',
   },
