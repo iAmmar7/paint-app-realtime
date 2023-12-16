@@ -1,7 +1,7 @@
 {
   "name": "api-paint-app-realtime",
   "version": "1.0.1",
-  "description": "",
+  "description": "API for Realtime Paint Application",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

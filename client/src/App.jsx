@@ -3,17 +3,17 @@ import socketClient from 'socket.io-client';
 
 import Canvas from './components/Canvas';
 
-const URL =
-  process.env.REACT_APP_NODE_ENV === 'production'
-    ? process.env.REACT_APP_PROD_SERVER_URL
-    : process.env.REACT_APP_DEV_SERVER_URL;
+const URL = process.env.REACT_APP_SERVER_URL;
 
-const socket = socketClient(URL || 'https://api-paint-app-realtime.herokuapp.com/', {
+const socket = socketClient(URL, {
   transports: ['websocket', 'polling'],
 });
 
 const App = () => {
-  const [elements, setElements] = useState({ currentState: [], previousState: [] });
+  const [elements, setElements] = useState({
+    currentState: [],
+    previousState: [],
+  });
 
   useEffect(() => {
     socket.on('canvas-data', (data) => {
