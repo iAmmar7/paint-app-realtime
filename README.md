@@ -1,10 +1,10 @@
 # paint-app-realtime
 :boom: An effortless real-time paint application :boom:
 
-## Vercel + Heroku deployment
+## Vercel + ~Heroku~ Glitch deployment
 https://paint-app-realtime.vercel.app/
 
-> If you face issues with **WebSockets** on the above URL, then please try to refresh the Heroku server here https://api-paint-app-realtime.herokuapp.com/
+> If you face issues with **WebSockets** on the above URL, then please try to refresh the Glitch server here https://api-paint-app-realtime.glitch.me/
 
 ## Few cool features
  - Real-time drawing interaction with all the connected users :rainbow:
@@ -28,7 +28,8 @@ https://paint-app-realtime.vercel.app/
 - Socket.io <img alt="Socket.io" src="https://img.shields.io/badge/-Socket.io-010101?style=flat-square&logo=socket.io&logoColor=white" />
 - Redis <img alt="Redis" src="https://img.shields.io/badge/-Redis-DC382D?style=flat-square&logo=redis&logoColor=white" />
 - PM2 with Cluster mode <img alt="pm2" src="https://img.shields.io/badge/-PM2-222362?style=flat-square&logo=pm2&logoColor=white" />
-- Heroku <img alt="Heroku" src="https://img.shields.io/badge/-Heroku-430098?style=flat-square&logo=heroku&logoColor=white" />
+- ~Heroku <img alt="Heroku" src="https://img.shields.io/badge/-Heroku-430098?style=flat-square&logo=heroku&logoColor=white" />~
+- Glitch <img alt="Glitch" src="https://img.shields.io/badge/-Glitch-FF7697?style=flat-square&logo=glitch&logoColor=white" />
 - Vercel <img alt="vercel" src="https://img.shields.io/badge/-Vercel-000000?style=flat-square&logo=vercel&logoColor=white" />
 
 ## How to run
@@ -42,9 +43,7 @@ https://paint-app-realtime.vercel.app/
 - npm install
 - add .env
 ```
-REACT_APP_NODE_ENV=development
-REACT_APP_DEV_SERVER_URL=http://localhost:5000
-REACT_APP_PROD_SERVER_URL=https://fierce-fortress-85118.herokuapp.com/
+REACT_APP_SERVER_URL=http://localhost:5000/
 ```
 - npm start
 
