@@ -1,5 +1,6 @@
 {
-  "name": "paint-app-realtime",
+  "name": "@paint-app/client",
+  "private": true,
   "version": "1.0.1",
   "description": "Realtime Paint Application",
   "scripts": {

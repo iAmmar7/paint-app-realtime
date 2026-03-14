@@ -1,23 +1,17 @@
 {
-  "name": "api-paint-app-realtime",
+  "name": "paint-app-realtime",
   "version": "1.0.1",
-  "description": "API for Realtime Paint Application",
-  "main": "index.js",
+  "description": "Realtime Paint Application - Monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "start": "node index.js",
-    "start:cluster": "pm2-runtime start ecosystem.config.js --env development",
-    "dev": "nodemon index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "socket.io": "^4.8.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.9"
+    "dev:server": "npm run dev -w @paint-app/server",
+    "dev:client": "npm run start -w @paint-app/client",
+    "build:client": "npm run build -w @paint-app/client",
+    "start:server": "npm run start -w @paint-app/server",
+    "start:cluster": "npm run start:cluster -w @paint-app/server"
   },
   "engines": {
     "node": ">=18"

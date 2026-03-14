@@ -1,0 +1,23 @@
+{
+  "name": "@paint-app/server",
+  "version": "1.0.1",
+  "description": "API for Realtime Paint Application",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:cluster": "pm2-runtime start ecosystem.config.js --env development",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
