@@ -1,7 +1,7 @@
 # paint-app-realtime
 :boom: An effortless minimal real-time paint application :boom:
 
-## Vercel + ~Heroku~ Glitch deployment
+## Vercel + Render deployment
 https://paint-app-realtime.vercel.app/
 
 > If you face issues with **WebSockets** on the above URL, then please try to refresh the Render server here https://paint-app-realtime.onrender.com/
